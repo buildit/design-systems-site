@@ -13,6 +13,9 @@ const debug = require("metalsmith-debug");
 
 // Project stuff
 const paths = require('./config-paths');
+const glossary = require('./metalsmith-glossary');
+
+const glossaryTermFilesPattern = ['glossary/**/*.md', '!glossary/**/index.md'];
 
 
 function build() {
@@ -31,10 +34,13 @@ function build() {
       gulpsmith()
         .use(collections({
           glossary: {
-            pattern: ['glossary/**/*.md', '!glossary/**/index.md'],
+            pattern: glossaryTermFilesPattern,
             sortBy: 'title',
             refer: false
           }
+        }))
+        .use(glossary({
+          pattern: glossaryTermFilesPattern
         }))
         .use(drafts())
         .use(markdown())
